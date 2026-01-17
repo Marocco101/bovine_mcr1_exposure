@@ -1,4 +1,4 @@
-# Preliminary Analysis: Decoupling of Antibiotic Resistance
+# The Ecoantibio Paradox: Analysis of Exposure vs. Resistance in French Cattle
 ### Unintended Consequences of Antibiotic Stewardship in French Livestock
 
 **Author:** Makiko FUJITA-SUZANNE  
