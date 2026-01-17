@@ -1,0 +1,75 @@
+========== STATISTICAL ANALYSIS REPORT ==========
+> SPLIT_YEAR <- 2017
+> 
+> # ------------------------------------------------------------------------------
+> # Analysis 1: Decoupling (Resistance vs TMP-SMX Resistance)
+> # ------------------------------------------------------------------------------
+> message("\n>>> 1. Resistance Decoupling Analysis (Colistin vs TMP-SMX Resistance)")
+
+>>> 1. Resistance Decoupling Analysis (Colistin vs TMP-SMX Resistance)
+> df_res$Phase <- ifelse(df_res$Year < SPLIT_YEAR, "Phase I (2006-2016)", "Phase II (2017-2024)")
+> 
+> # Correlation
+> results_corr <- df_res %>% 
++   group_by(Phase) %>% 
++   summarise(
++     N = n(),
++     r = cor(Colistin, Mix, use="complete.obs"), 
++     p_value = cor.test(Colistin, Mix)$p.value
++   )
+> print(results_corr)
+# A tibble: 2 × 4
+  Phase                    N     r  p_value
+  <chr>                <int> <dbl>    <dbl>
+1 Phase I (2006-2016)     11 0.848 0.000967
+2 Phase II (2017-2024)     8 0.505 0.202   
+> 
+> # Interaction Model (Structural Break)
+> df_res$Period_Binary <- ifelse(df_res$Year < SPLIT_YEAR, 0, 1)
+> model_interaction <- lm(Colistin ~ Mix * Period_Binary, data = df_res)
+> p_interaction <- summary(model_interaction)$coefficients["Mix:Period_Binary", "Pr(>|t|)"]
+> 
+> if(p_interaction < 0.05) {
++   message(paste0("RESULT: SIGNIFICANT STRUCTURAL BREAK DETECTED (p = ", format.pval(p_interaction, eps=0.001), ")"))
++ }
+RESULT: SIGNIFICANT STRUCTURAL BREAK DETECTED (p = < 0.001)
+> 
+> # ------------------------------------------------------------------------------
+> # Analysis 2: Exposure Impact (Colistin Exposure vs Colistin Resistance)
+> # ------------------------------------------------------------------------------
+> message("\n>>> 2. Exposure Impact Analysis (Colistin Exposure vs Resistance)")
+
+>>> 2. Exposure Impact Analysis (Colistin Exposure vs Resistance)
+> 
+> # Merge Resistance and Exposure Data (Overlapping years only: 2006-2020)
+> df_merged <- merge(df_res[,c("Year", "Colistin")], df_exp[,c("Year", "Colistin_Exp")], by="Year")
+> df_merged$Phase <- ifelse(df_merged$Year < SPLIT_YEAR, "Phase I (2006-2016)", "Phase II (2017-2020)")
+> 
+> # Correlation between Exposure and Resistance
+> results_exp_corr <- df_merged %>% 
++   group_by(Phase) %>% 
++   summarise(
++     N = n(),
++     r = cor(Colistin, Colistin_Exp, use="complete.obs"), 
++     p_value = cor.test(Colistin, Colistin_Exp)$p.value
++   )
+> 
+> # Add Overall Correlation
+> overall_corr <- data.frame(
++   Phase = "Overall (2006-2020)",
++   N = nrow(df_merged),
++   r = cor(df_merged$Colistin, df_merged$Colistin_Exp, use="complete.obs"),
++   p_value = cor.test(df_merged$Colistin, df_merged$Colistin_Exp)$p.value
++ )
+> 
+> results_exp_final <- rbind(overall_corr, results_exp_corr)
+> print(results_exp_final)
+                 Phase  N         r      p_value
+1  Overall (2006-2020) 15 0.9228001 9.586739e-07
+2  Phase I (2006-2016) 11 0.8639182 6.062826e-04
+3 Phase II (2017-2020)  4 0.7346970 2.653030e-01
+> 
+> message("\n==================================================")
+
+==================================================
+>
