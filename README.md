@@ -5,6 +5,19 @@
 **Date:** January 2026
 
 ---
+## Summary & Key Implications
+
+**Main Objective:** To quantify the relationship between colistin exposure (ALEA) and phenotypic resistance rates (RESAPATH) in the French bovine sector.
+
+### Summary of Findings
+* **The Ecoantibio Paradox:** Identified a fundamental shift in resistance dynamics starting around 2017.
+* **Correlation Break:** While a strong positive correlation existed prior to 2017 ($r = 0.86, p < 0.001$), this link vanished in the subsequent period ($r = -0.52, p = 0.26$).
+* **Usage vs. Persistence:** Colistin resistance has shown a gradual resurgence since 2019 despite historically low antimicrobial exposure.
+
+### Key Implication
+These results demonstrate that traditional antimicrobial stewardship focused solely on usage reduction is no longer sufficient. The "paradoxical" persistence suggests that resistance has transitioned to an autonomous phase.
+
+---
 
 ## 1. Overview (Executive Summary)
 
