@@ -41,7 +41,7 @@ I tested the relationship between **Colistin Resistance** and its historical dri
 
 * **Structural Break Test:** An Interaction Model (`Colistin ~ Mix * Period`) confirmed that the change in relationship is highly significant (**$p < 0.001$**).
 
-### Part 2: The Limits of Stewardship (Exposure vs. Resistance)
+### Part 2: The Limits of Stewardship (Colistin Exposure vs. Colistin Resistance)
 I also analyzed the direct impact of **Colistin Exposure (ALEA)** on resistance rates.
 
 | Period | N | Correlation ($r$) | P-value | Interpretation |
